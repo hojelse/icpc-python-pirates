@@ -1,28 +1,43 @@
-\documentclass[8pt,a4paper,landscape,oneside]{amsart}
+\documentclass[8pt,a4paper,portrait,oneside]{amsart}
 \usepackage[top=3pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry} % margins
 \usepackage[utf8]{inputenc} % typeset
 \usepackage{titling}
 \usepackage{multicol}
 
-\usepackage{xcolor}
 \usepackage{color}
-\usepackage{minted}
-\newminted[python]{python}{frame=single}
-\fvset{showspaces}
-\renewcommand\FancyVerbSpace{\textcolor{black}{\dotfill}}
+\usepackage{xcolor}
+\definecolor{ultramarine}{RGB}{220,220,220}
+\definecolor{bbb}{RGB}{100,100,100}
 
-% Minted
 \usepackage{minted}
-\newcommand{\code}[1]{\inputminted[fontsize=\normalsize,baselinestretch=1]{python}{code/#1}}
+\newmintedfile[py]{python}{
+    frame=bottomline,
+    framesep=5pt,
+    baselinestretch=1,
+    showspaces=true,
+}
+\newcommand{\code}[1]{
+    \subsection{#1}
+    \py{code/#1}
+}
+
+\fvset{showspaces}
+\renewcommand\FancyVerbSpace{\textcolor{ultramarine}{·}}
+
+% Font
+\usepackage[T1]{fontenc}
+\usepackage[scaled]{beramono}
 
 \title{icpc-cheat-sheet}
 \author{Kristoffer Højelse}
 \date{November 2022}
 
 \begin{document}
-\begin{multicols*}{3}
+\begin{multicols*}{2}
 
+\section{Algorithms}
 \code{helloworld.py}
+\code{depthfirstsearch.py}
 
 \end{multicols*}
 \end{document}
