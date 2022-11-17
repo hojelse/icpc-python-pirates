@@ -1,7 +1,7 @@
 # $\sim$ Python Pirates at ICPC
 ```
 Yarr harr fiddly dee.
-Searching a tree, for the best you can be.
+Searching a tree, check primes in time P.
 Do what you want, cuz a pirate's savvy.
 You are a pirate! 🏴‍☠️
 ```
