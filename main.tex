@@ -1,44 +1,214 @@
 \documentclass[8pt,a4paper,landscape,oneside]{amsart}
-\usepackage[top=3pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry} % margins
-\usepackage[utf8]{inputenc} % typeset
-\usepackage{titling}
-\usepackage{multicol}
-
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{booktabs}
+\usepackage{caption}
 \usepackage{color}
-\usepackage{xcolor}
+\usepackage{fancyhdr}
+\usepackage{float}
+\usepackage{fullpage}
+\usepackage[top=3pt, bottom=1cm, left=0.3cm, right=0.3cm]{geometry}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage[scaled]{beramono}
+\usepackage{titling}
+\usepackage{datetime}
+\usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{lipsum}
 
-% 
+\newcommand{\subtitle}[1]{%
+  \posttitle{%
+    \par\end{center}
+    \begin{center}\large#1\end{center}
+    \vskip0.1em\vspace{-1em}}%
+}
+
+% Minted
 \usepackage{minted}
-\newmintedfile[py]{python}{
-    frame=bottomline,
-    framesep=5pt,
-    baselinestretch=1,
-    showspaces=true,
-}
-\newcommand{\code}[2]{
-    \subsection{#1}{#2}
-    \py{code/#1}
-}
+\newcommand{\code}[1]{\inputminted[fontsize=\normalsize,baselinestretch=1]{python}{code/#1}}
+
+% Header/Footer
+\pagestyle{fancy}
+\lhead{IT-Univerity of Copenhagen}
+\rhead{\thepage}
+\cfoot{}
+\setlength{\headheight}{15.2pt}
+\setlength{\droptitle}{-20pt}
+\posttitle{\par\end{center}}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% Math and bit operators
+\DeclareMathOperator{\lcm}{lcm}
+\newcommand*\BitAnd{\mathrel{\&}}
+\newcommand*\BitOr{\mathrel{|}}
+\newcommand*\ShiftLeft{\ll}
+\newcommand*\ShiftRight{\gg}
+\newcommand*\BitNeg{\ensuremath{\mathord{\sim}}}
+\DeclareRobustCommand{\stirling}{\genfrac\{\}{0pt}{}}
+
+\newenvironment{myitemize}
+{ \begin{itemize}[leftmargin=.5cm]
+    \setlength{\itemsep}{0pt}
+    \setlength{\parskip}{0pt}
+    \setlength{\parsep}{0pt}     }
+{ \end{itemize}                  }
+
+% Title/Author
+\title{$\sim$ Python Pirates}
+\subtitle{Team Reference Document}
+\date{\ddmmyyyydate{\today{}}}
 
 % Render spaces as middots
-\definecolor{middotcolor}{RGB}{220,220,220}
+\definecolor{middotcolor}{RGB}{180,180,180}
 \fvset{showspaces}
 \renewcommand\FancyVerbSpace{\textcolor{middotcolor}{·}}
 
-% Font
-\usepackage[T1]{fontenc}
-\usepackage[scaled]{beramono}
-
-\title{icpc-cheat-sheet}
-\author{Kristoffer Højelse}
-\date{November 2022}
-
 \begin{document}
+
+\begin{multicols*}{3}
+\maketitle
+\thispagestyle{fancy}
+\vspace{-3em}
+\tableofcontents
+
+
+\section{Common}
+
+    \subsection{Stable matching}
+        \code{helloworld.py}
+    \subsection{Vertex cover}
+        \code{helloworld.py}
+    \subsection{Hamiltonian Path}
+        \code{helloworld.py}
+
+\section{Graph}
+
+    \subsection{Minimum spanning tree}
+        \subsubsection{Kruskal's algorithm}
+            \code{helloworld.py}
+        \subsubsection{Prim's algorithm}
+            \code{helloworld.py}
+    \subsection{Union-Find}
+        \code{helloworld.py}
+    \subsection{Union-Find}
+        \code{helloworld.py}
+    \subsection{Shortest path}
+        \subsubsection{Dijkstra's algorithm}
+            \code{helloworld.py}
+        \subsubsection{Bellman-Ford}
+            \code{helloworld.py}
+    \subsection{Exhastive traversal}
+        \subsubsection{Breadth-First Search}
+            \code{helloworld.py}
+        \subsubsection{Depth-First Search}
+            \code{helloworld.py}
+    \subsection{Cycles finding}
+        \code{helloworld.py}
+    \subsection{Flow}
+        \subsubsection{Ford-Fulkerson with capacity scaling}
+            \code{helloworld.py}
+        \subsubsection{Minimum Cost Maximum Flow using Dijkstra's algorithm}
+            \code{helloworld.py}
+
+\section{Strings}
+
+    \subsection{Suffix array}
+        \code{helloworld.py}
+    \subsection{Knutt-Morris-Pratt}
+        \code{helloworld.py}
+
+\section{Geometry}
+
+    \subsection{Closest pair}
+        \code{helloworld.py}
+    \subsection{Convex hull}
+        \code{helloworld.py}
+    \subsection{K/D tree}
+        \code{helloworld.py}
+
+\section{Search}
+
+    \subsection{Red-Black Binary Search Tree}
+        \code{helloworld.py}
+    \subsection{Fenwick, Segment tree}
+        \code{helloworld.py}
+
+\section{Combinatorics}
+
+    \subsection{Probability sequences}
+        \code{helloworld.py}
+
+\section{Number theory}
+
+    \subsection{Sieve of Eratosthenes - prime generation}
+        \code{helloworld.py}
+
+\section{Brute force}
+
+    \subsection{Subset enumeration}
+        \code{helloworld.py}
+
+\section{Mathematics}
+
+    \subsection{Sequences}
+        \subsubsection{Arithmetic progression}
+            Def. $a_n = a + (n-1)d$
+            $$ a + ... + z = \frac{n(a+z)}{2}$$
+            where $a$: first number, $z$: last number, $n$: amount of numbers
+        \subsubsection{Geometric progression}
+            $$\sum_{n=0}^{n-1}{ar^k} = ar^0 + ar^1 + ... + ar^{n-1} = a\left(\frac{1-r^n}{1-r}\right)$$
+            for $r \neq 1$
+        \subsubsection{Triangular numbers}
+            $$\sum_{x=1}^{n}{x} = 1 + 2 + 3 + ... + n = \frac{n(n+1)}{2} = \binom{n+1}{2}$$
+        \subsubsection{Square pyramidal numbers}
+            $$\sum_{x=1}^{n}{x^2} = 1^2 + 2^2 + 3^2 + ... + n^2 = \frac{n(n+1)(2n+1)}{6}$$
+        \subsubsection{Harmonic numbers}
+            $$\sum_{x=1}^{n}{\frac{1}{x}} = 1 + \frac{1}{2} + \frac{1}{3} + ... + \frac{1}{n} \leq \log_2(N) + 1$$
+        \subsubsection{Fibonacci (closed-form)}
+            $$\text{fib}(n) = \frac{(1+\sqrt{5})^n - (1-\sqrt{5})^n}{2^n\sqrt{5}}$$
+
+    \subsection{Geometry}
+        Geometric areas
+    
+        Trapezoid area $A = \frac{h}{2} \cdot (a + b)$ where $a$ and $b$ are parallel
+
+        Sphere surface area $S = 4\pi \cdot r^2$
+        
+        Sphere volume $V = \frac{4}{3} \cdot r^3$
+        
+        Cone surface $S = \pi r(l+r)$
+        
+        Cone volume $V = \frac{1}{3}\pi hr^2$
+
+    \subsection{Combinatorics}
+        Combinations and Permutations
+        
+        $P(n,r) = \frac{n!}{(n-r)!}$
+        
+        $C(n,r) = \binom{n}{r} = \frac{n!}{r!(n-r)!}$
+        
+        $C(n,r) = C(n, n-r)$
+        
+        $P(X=r) = C(n,r) \cdot p^r \cdot (1-p)^{n-r}$
+
+    \subsection{Combinatorics}
+        Bayes' Theorem
+
+        $P(B|A) = \frac{P(A|B) P(B)}{P(A)}$
+        
+        $P(B|A) = \frac{P(A|B)P(B)}{P(A|B)P(B) + P(A|\bar{B})P(\bar{B})}$
+        
+        $P(B_k|A) = \frac{P(A|B_k)P(B_k)}{P(A|B_1)P(B_1) \cdot ... \cdot P(A|B_n)P(B_n)}$
+
+\end{multicols*}
+
+\onecolumn
 \begin{multicols*}{3}
 
-\section{Algorithms}
-\code{helloworld.py}{A sample algorithm}
-\code{depthfirstsearch.py}{hi}
+    \section{Python standard library}
 
 \end{multicols*}
 \end{document}
