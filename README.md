@@ -16,7 +16,7 @@ A new version of the PDF should *occationally* be pushed to the repo for conveni
 Add code to the code/ directory.
 
 Code formatting and requirements (Maybe there should be added a linter)
-- Lines should no wider than 66 characters.
+- Lines should no wider than 64 characters.
 - Use 2 spaces for indentation.
 - Code should be succinct and quick to type out.
 - Algorithms should be *fast enough* as to not suffer in succinctness.
