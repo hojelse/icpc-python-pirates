@@ -1,212 +1,188 @@
 
 class Node:
-    def __init__(self, key, value):
-        self.key = key
-        self.value = value
-        self.red = True
-        self.left = None
-        self.right = None
-
-    def rotate_left(self):
-        root = self.right
-        self.right = root.left
-        root.red = self.red
-        root.left = self
-        self.red = True
-        return root
-
-    def rotate_right(self):
-        root = self.left
-        self.left = root.right
-        root.red = self.red
-        root.right = self
-        self.red = True
-        return root
-
-    def shift_left(self):
-        self.flip()
-        if (self.right and self.right.left and self.right.left.red):
-            self.right = self.right.rotate_right()
-            self = self.rotate_left()
-            self.flip()
-        return self
-
-    def shift_right(self):
-        self.flip()
-        if (self.left and self.left.left and self.left.left.red):
-            self = self.rotate_right()
-            self.flip()
-        return self
-
-    def split(self):
-        self.red = True
-        self.left.red = False
-        self.right.red = False
-
-    def flip(self):
-        self.red = not self.red
-        if self.left: self.left.red = not self.left.red
-        if self.right: self.right.red = not self.right.red
-
-    def balance(self, strict):
-        if (self.right and self.right.red) and not (strict and self.left and self.left.red):
-            self = self.rotate_left()
-        if (self.left and self.left.red) and (self.left.left and self.left.left.red):
-            self = self.rotate_right()
-        if (self.left and self.left.red) and (self.right and self.right.red):
-            self.split()
-        return self
-
+    def __init__(s, k, v):
+        s.k, s.v, s.r, s.L, s.R = k, v, True, None, None
+    def rotate_left(s):
+        rt = s.R
+        rt.r, rt.L, s.r, s.R = s.r, s, True, rt.L
+        return rt
+    def rotate_right(s):
+        rt = s.L
+        s.L, rt.r, rt.R, s.r = rt.R, s.r, s, True
+        return rt
+    def shift_left(s):
+        s.flip()
+        if (s.R and s.R.L and s.R.L.r):
+            s.R = s.R.rotate_right()
+            s = s.rotate_left()
+            s.flip()
+        return s
+    def shift_right(s):
+        s.flip()
+        if (s.L and s.L.L and s.L.L.r):
+            s = s.rotate_right()
+            s.flip()
+        return s
+    def split(s):
+        s.r, s.L.r, s.R.r = True, False, False
+    def flip(s):
+        s.r = not s.r
+        if s.L: s.L.r = not s.L.r
+        if s.R: s.R.r = not s.L.r
+    def balance(s, strict):
+        if (s.R and s.R.r) and not (strict and s.L and s.L.r):
+            s = s.rotate_left()
+        if (s.L and s.L.r) and (s.L.L and s.L.L.r):
+            s = s.rotate_right()
+        if (s.L and s.L.r) and (s.R and s.R.r):
+            s.split()
+        return s
 
 class TreeSet:
+    def __init__(s, key=lambda x: x): s.rt, s.k = None, key
+    def __contains__(s, val): return s.search(val) is not None
 
-    def __init__(self, key=lambda x: x):
-        self.root = None
-        self.key = key
-
-    def __contains__(self, value):
-        return self.search(value) is not None
-
-    def add(self, value):
-        stack = [self.root]
-        key = self.key(value)
-        result = None
-
+    def add(s, value):
+        stk, key, result = [s.rt], s.k(value), None
         while result is None:
-            node = stack[-1]
-            if node is None:
-                stack.pop()
+            nd = stk[-1]
+            if not nd:
+                stk.pop()
                 result = Node(key, value)
-            elif key <= node.key:
-                stack.append(node.left)
-            else:
-                stack.append(node.right)
+            elif key <= nd.k: stk.append(nd.L)
+            else: stk.append(nd.R)
+        while len(stk) > 0:
+            nd = stk.pop()
+            if key <= nd.k: nd.L = result
+            else: nd.R = result
+            result = nd.balance(True)
+        s.rt, s.rt.r = result, False
 
-        while len(stack) > 0:
-            node = stack.pop()
-            if key <= node.key:
-                node.left = result
-            else:
-                node.right = result
-            result = node.balance(True)
-        self.root = result
-        self.root.red = False
+    def search(s, value):
+        stk, key = [s.rt], s.k(value)
+        while len(stk) > 0:
+            nd = stk.pop()
+            if nd is None: return None
+            elif key < nd.k: stk.append(nd.L)
+            elif key > nd.k: stk.append(nd.R)
+            else: return nd.v
 
-    def search(self, value):
-        stack = [self.root]
-        key = self.key(value)
-        while len(stack) > 0:
-            node = stack.pop()
-            if node is None:
-                return None
-            elif key < node.key:
-                stack.append(node.left)
-            elif key > node.key:
-                stack.append(node.right)
-            else:
-                return node.value
-
-    def range(self, lo, hi):
-        stack = [self.root]
-        lo = self.key(lo)
-        hi = self.key(hi)
-        results = []
-        while len(stack) > 0:
-            node = stack.pop()
-            if node is None: 
-                continue
-            if lo <= node.key <= hi:
-                results.append(node.value)
-            if lo < node.key:
-                stack.append(node.left)
-            if node.key < hi:
-                stack.append(node.right)
+    def range(s, lo, hi):
+        stk, lo, hi, results = [s.rt], s.k(lo), s.k(hi), []
+        while len(stk) > 0:
+            nd = stk.pop()
+            if nd is None: continue
+            if lo <= nd.k <= hi: results.append(nd.v)
+            if lo < nd.k: stk.append(nd.L)
+            if nd.k < hi: stk.append(nd.R)
         return results
 
-    def remove(self, value):
-        if self.root is None: return None
-        if not (self.root and self.root.left and self.root.left.red) and not (self.root and self.root.right and self.root.right.red):
-            self.root.red = True
-        self.root = self._remove(self.root, self.key(value))
-        if self.root is not None:
-            self.root.red = False
+    def remove(s, value):
+        if s.rt is None: return None
+        if not (s.rt and s.rt.L and s.rt.L.r) \
+        and not (s.rt and s.rt.R and s.rt.R.r):
+            s.rt.r = True
+        s.rt = s._remove(s.rt, s.k(value))
+        if s.rt is not None: s.rt.r = False
 
-    def _remove(self, node, key):
-        if node is None: return None
-        if key < node.key:
-            if not (node.left and node.left.red) and not (node.left and node.left.left and node.left.left.red):
-                node = node.shift_left()
-            node.left = self._remove(node.left, key)
+    def _remove(s, nd, key):
+        if nd is None: return None
+        if key < nd.k:
+            if not (nd.L and nd.L.r) \
+            and not (nd.L and nd.L.L and nd.L.L.r):
+                nd = nd.shift_left()
+            nd.L = s._remove(nd.L, key)
         else:
-            if node.left and node.left.red:
-                node = node.rotate_right()
-            if key == node.key and node.right is None:
-                return None
-            if not (node.right and node.right.red) and not (node.right and node.right.left and node.right.left.red):
-                node = node.shift_right()
-            if key == node.key:
-                nxt = self._min(node.right)
-                node.key = nxt.key
-                node.value = nxt.value
-                node.right = self._remove_min(node.right)
+            if nd.L and nd.L.r: nd = nd.rotate_right()
+            if key == nd.k and not nd.R: return None
+            if not (nd.R and nd.R.r) \
+            and not (nd.R and nd.R.L and nd.R.L.r):
+                nd = nd.shift_right()
+            if key == nd.k:
+                nxt, nd.k, nd.v = s._min(nd.R), nxt.k, nxt.v
+                nd.R = s._remove_min(nd.R)
             else:
-                node.right = self._remove(node.right, key)
-        return node.balance(False)
+                nd.r = s._remove(nd.r, key)
+        return nd.balance(False)
 
-    def min(self):
-        return self._min(self.root)
+    def min(s):
+        return s._min(s.rt)
 
-    def _min(self, node):
-        if node is None:
-            return None 
-        stack = [node]
-        while len(stack) > 0:
-            node = stack.pop()
-            if node.left is None:
-                return node
-            else:
-                stack.append(node.left)
+    def _min(s, nd):
+        if nd is None: return None 
+        stk = [nd]
+        while len(stk) > 0:
+            nd = stk.pop()
+            if not nd.L: return nd
+            else: stk.append(nd.L)
 
-    def remove_min(self):
-        if not (self.root and self.root.left and self.root.left.red) and not (self.root and self.root.right and self.root.right.red):
-            self.root.red = True
-        self.root = self._remove_min(self.root)
-        self.root.red = False
+    def remove_min(s):
+        if not (s.rt and s.rt.L and s.rt.L.r) \
+        and not (s.rt and s.rt.R and s.rt.R.r):
+            s.rt.r = True
+        s.rt = s._remove_min(s.rt)
+        s.rt.r = False
 
-    def _remove_min(self, node):
-        if node.left is None:
-            return None
-        if not (node.left and node.left.red) and not (node.left and node.left.left and node.left.left.red):
-            node = node.shift_left()
-        node.left = self._remove_min(node.left)
-        return node.balance(False)
+    def _remove_min(s, nd):
+        if nd.L is None: return None
+        if not (nd.L and nd.L.r) \
+        and not (nd.L and nd.L.L and nd.L.L.r):
+            nd = nd.shift_left()
+        nd.L = s._remove_min(nd.L)
+        return nd.balance(False)
 
-    def max(self):
-        return self._max(self.root)
+    def max(s): return s._max(s.rt)
 
-    def _max(self, node):
-        if node is None:
-            return None 
-        stack = [node]
-        while len(stack) > 0:
-            node = stack.pop()
-            if node.right is None:
-                return node
-            else:
-                stack.append(node.right)
+    def _max(s, nd):
+        if nd is None: return None 
+        stk = [nd]
+        while len(stk) > 0:
+            nd = stk.pop()
+            if nd.R is None: return nd
+            else: stk.append(nd.R)
     
-    def remove_max(self):
-        if not (self.root and self.root.left and self.root.left.red) and not (self.root and self.root.right and self.root.right.red):
-            self.root.red = True
-        self.root = self._remove_max(self.root)
-        self.root.red = False
+    def remove_max(s):
+        if not (s.rt and s.rt.L and s.rt.L.r) \
+        and not (s.rt and s.rt.R and s.rt.R.r):
+            s.rt.r = True
+        s.rt = s._remove_max(s.rt)
+        s.rt.r = False
         
-    def _remove_max(self, node):
-        if node.left and node.left.red:
-            node = node.rotate_right()
-        if node.right is None:
-            return None
-        if not (node.right and node.right.red) and not (node.right and node.right.left and node.right.left.red):
-            node = node.shift_right()
-        node.right = self._remove_max(node.right)
-        return node.balance(False)
+    def _remove_max(s, nd):
+        if nd.L and nd.L.r: nd = nd.rotate_right()
+        if nd.R is None: return None
+        if not (nd.R and nd.R.r) \
+        and not (nd.R and nd.R.L and nd.R.L.r):
+            nd = nd.shift_right()
+        nd.R = s._remove_max(nd.R)
+        return nd.balance(False)
+
+    def floor(s, key):
+        k = s.k(key)
+        if s.rt:
+            x = s._floor(s.rt, k);
+            if x is not None: return x
+            else: return None
+
+    def _floor(s, nd, key):
+        if not nd: return
+        if key == nd.k: return nd.v
+        if key < nd.k: return s._floor(nd.L, key)
+        t = s._floor(nd.R, key)
+        if t is not None: return t
+        return nd.v
+ 
+    def ceil(s, key):
+        k = s.k(key)
+        if s.rt:
+            x = s._ceil(s.rt, k);
+            if x is not None: return x
+            else: return None
+
+    def _ceil(s, nd, key):
+        if not nd: return
+        if key == nd.k: return nd.v
+        if key > nd.k: return s._ceil(nd.R, key)
+        t = s._ceil(nd.L, key)
+        if t is not None: return t
+        return nd.v

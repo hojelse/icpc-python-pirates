@@ -31,7 +31,7 @@
 
 % Header/Footer
 \pagestyle{fancy}
-\lhead{IT-Univerity of Copenhagen}
+\lhead{IT-University of Copenhagen}
 \rhead{\thepage}
 \cfoot{}
 \setlength{\headheight}{15.2pt}
@@ -84,15 +84,21 @@
 \vspace{-3em}
 \tableofcontents
 
+\section{General}
 
-\section{Common}
+    \subsection{Template}
+        \code{template.py}
+    \subsection{Troubleshooting/Strategy}
+        \code{troubleshoot.txt}
 
-    \subsection{Stable matching}
-        \code{helloworld.py}
-    \subsection{Vertex cover}
-        \code{helloworld.py}
-    \subsection{Hamiltonian Path}
-        \code{helloworld.py}
+% \section{Common}
+
+%     \subsection{Stable matching}
+%         \code{helloworld.py}
+%     \subsection{Vertex cover}
+%         \code{helloworld.py}
+%     \subsection{Hamiltonian Path}
+%         \code{helloworld.py}
 
 \section{Graph}
 
@@ -112,37 +118,40 @@
             \code{bellmanfordgen.py}
     \subsection{Exhastive traversal}
         \subsubsection{Breadth-First Search}
-            \code{helloworld.py}
+            \code{bfs.py}
         \subsubsection{Depth-First Search}
-            \code{helloworld.py}
+            \code{dfs.py}
     \subsection{Cycles finding}
-        \code{helloworld.py}
+        \code{dfscycles.py}
     \subsection{Flow}
         \subsubsection{Ford-Fulkerson with capacity scaling}
             \code{flow.py}
-        \subsubsection{Minimum Cost Maximum Flow using Dijkstra's algorithm}
-            \code{helloworld.py}
+        \subsubsection{Minimum Cost Maximum Flow}
+            \code{MinCostMaxFlow.java}
 
 \section{Strings}
-
+    \subsection{KMP}
+        \code{kmp.py}
     \subsection{Suffix array}
-        \code{helloworld.py}
-    \subsection{Knutt-Morris-Pratt}
-        \code{helloworld.py}
+        \code{suffixarray.py}
+    \subsection{Least Common Substring}
+        \code{leastcommonsubstring.py}
+    \subsection{Repeated Substring}
+        \code{repeatedsubstring.py}
 
 \section{Geometry}
 
     \subsection{Closest pair}
         \code{helloworld.py}
     \subsection{Convex hull}
-        \code{helloworld.py}
-    \subsection{K/D tree}
-        \code{helloworld.py}
+        \code{convexhull.py}
+    % \subsection{K/D tree}
+    %     \code{helloworld.py}
 
 \section{Search}
 
     \subsection{Red-Black Binary Search Tree}
-        \code{helloworld.py}
+        \code{llrbst.py}
     \subsection{Fenwick Tree} -- 1 indexed prefix sums
         \code{fenwick.py}
 
@@ -536,12 +545,20 @@ The expected time until absorption, when the initial state is $i$, is $t_i = 1+\
         hello
     \subsection{General cheat-sheet}
         \code{python-cheat-sheet.py}
-\end{multicols*}
 
-\onecolumn
-\begin{multicols*}{3}
-    \section{Dump of KTH Stuff}
-    \subsection{Overview}
+    \section{Dump of random snippets}
+        \subsection{Exact Change}
+            \code{exactchange.py}
+        \subsection{8 Queens}
+            \code{8queens.py}
+        \subsection{Rectangle Primitives}
+            \code{rectangles.py}
+        \subsection{Morsecode}
+            \code{morsecode.py}
+        \subsection{Palindromes}
+            \code{palindrome.py}
+        \subsection{Run Decomposition}
+            \code{runs.py}
 \end{multicols*}
 
 \end{document}
